@@ -92,9 +92,10 @@
                                 <a href="/carros/{{ carro.id }}" class="btn btn-sm btn-primary" title="Editar">
                                     <i class="fas fa-pencil-alt"></i>
                                 </a>
-                                <a href="/carros/deletar/{{ carro.id }}" class="btn btn-sm btn-danger" title="Remover">
+                                <button data-bs-toggle="modal" data-bs-target="#aviso-deletar" data-href="/carros/deletar/{{ carro.id }}"
+                                    class="btn btn-sm btn-danger" title="Remover">
                                     <i class="fas fa-trash"></i>
-                                </a>
+                                </button>
                             </div>
                         </td>
                     </tr>

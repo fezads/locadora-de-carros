@@ -1,0 +1,91 @@
+{% extends '../base.html' %}
+
+{% block title %} Clientes {% endblock %}
+
+{% block content %}
+    <h1>Clientes</h1>
+
+    <div class="card my-4">
+        <div class="card-body">
+            <h2 class="d-flex justify-content-between mb-3 fs-4 lh-1">
+                {% if cliente %}
+                    <span>Editar Cliente</span> <a href="/clientes" class="fs-6 text-danger text-decoration-none">Cancelar</a>
+                {% else %}
+                    Novo Cliente
+                {% endif %}
+            </h2>
+            <form action="{% if cliente %}/clientes/atualizar/{{ cliente.id }}{% else %}/clientes/cadastrar/{% endif %}" method="POST">
+                {% csrf_token %}
+                <div class="row g-3">
+                    <div class="col-sm-6 col-lg-3">
+                        <label for="nome" class="form-label">Nome</label>
+                        <input type="text" maxlength="100" class="form-control" name="nome" id="nome" value="{{ cliente.nome }}" required>
+                    </div>
+                    <div class="col-sm-6 col-lg-3">
+                        <label for="cpf" class="form-label">CPF</label>
+                        <input type="text" inputmode="numeric" class="form-control" name="cpf" id="cpf" value="{{ cliente.cpf }}" data-cpf required>
+                    </div>
+                    <div class="col-sm-6 col-lg-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="text" inputmode="email" maxlength="100" class="form-control" name="email" id="email" value="{{ cliente.email }}" data-email required>
+                    </div>
+                    <div class="col-sm-6 col-lg-3">
+                        <label for="telefone" class="form-label">Telefone</label>
+                        <input type="tel" inputmode="tel" class="form-control" name="telefone" id="telefone" value="{{ cliente.telefone }}" required>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col d-flex justify-content-sm-end">
+                        <button type="submit" class="btn btn-primary flex-grow-1 flex-sm-grow-0">
+                            {% if cliente %}
+                                Salvar
+                            {% else %}
+                                Cadastrar
+                            {% endif %}
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Nome</th>
+                        <th scope="col">CPF</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Telefone</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cliente in clientes %}
+                    <tr valign="middle">
+                        <td>{{ cliente.nome }}</td>
+                        <td>{{ cliente.cpf }}</td>
+                        <td>{{ cliente.email }}</td>
+                        <td>{{ cliente.telefone }}</td>
+                        <td width="100px">
+                            <div class="d-flex gap-2">
+                                <a href="/clientes/{{ cliente.id }}" class="btn btn-sm btn-primary" title="Editar">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </a>
+                                <button data-bs-toggle="modal"
+                                    data-bs-target="#aviso-deletar"
+                                    data-href="/clientes/deletar/{{ cliente.id }}"
+                                    class="btn btn-sm btn-danger"
+                                    title="Remover">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

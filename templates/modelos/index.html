@@ -40,9 +40,9 @@
                     <div class="col d-flex justify-content-sm-end">
                         <button type="submit" class="btn btn-primary flex-grow-1 flex-sm-grow-0">
                             {% if modelo %}
-                            Salvar
+                                Salvar
                             {% else %}
-                            Cadastrar
+                                Cadastrar
                             {% endif %}
                         </button>
                     </div>
@@ -73,9 +73,10 @@
                                 <a href="/modelos/{{ modelo.id }}" class="btn btn-sm btn-primary" title="Editar">
                                     <i class="fas fa-pencil-alt"></i>
                                 </a>
-                                <a href="/modelos/deletar/{{ modelo.id }}" class="btn btn-sm btn-danger" title="Remover">
+                                <button data-bs-toggle="modal" data-bs-target="#aviso-deletar" data-href="/modelos/deletar/{{ modelo.id }}"
+                                    class="btn btn-sm btn-danger" title="Remover">
                                     <i class="fas fa-trash"></i>
-                                </a>
+                                </button>
                             </div>
                         </td>
                     </tr>
