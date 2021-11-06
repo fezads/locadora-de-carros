@@ -1,0 +1,85 @@
+{% extends '../base.html' %}
+
+{% block title %} Modelos {% endblock %}
+
+{% block content %}
+    <h1>Modelos</h1>
+
+    <div class="card my-4">
+        <div class="card-body">
+            <h2 class="d-flex justify-content-between mb-3 fs-4 lh-1">
+                {% if modelo %}
+                    <span>Editar Modelo</span> <a href="/modelos" class="fs-6 text-danger text-decoration-none">Cancelar</a>
+                {% else %}
+                    Novo Modelo
+                {% endif %}
+            </h2>
+            <form action="{% if modelo %}/modelos/atualizar/{{ modelo.id }}{% else %}/modelos/cadastrar/{% endif %}"
+                method="POST"
+                class="d-flex flex-column flex-md-row align-items-md-end gap-3"
+            >
+                {% csrf_token %}
+                <div class="from-group col-md-3">
+                    <label for="nome" class="form-label">Nome</label>
+                    <input type="text" maxlength="50" class="form-control" name="nome" id="nome" value="{{ modelo.nome }}" required>
+                </div>
+                <div class="from-group col-md-3">
+                    <label for="marca" class="form-label">Marca</label>
+                    <select class="form-select" name="marca" id="marca" value="{{ modelo.marca }}" required>
+                        <option value="">Selecione</option>
+                        {% for marca in marcas %}
+                            <option value="{{ marca.id }}" {% if marca.id == modelo.marca.id %}selected{% endif %}>{{ marca.nome }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="from-group flex-md-grow-1">
+                    <label for="descricao" class="form-label">Descrição</label>
+                    <input type="text" maxlength="200" class="form-control" name="descricao" id="descricao" value="{{ modelo.descricao }}">
+                </div>
+                <div class="from-group">
+                    <button class="btn btn-primary">
+                        {% if modelo %}
+                            Salvar
+                        {% else %}
+                            Cadastrar
+                        {% endif %}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Marca</th>
+                        <th scope="col">Descricao</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for modelo in modelos %}
+                    <tr valign="middle">
+                        <td>{{ modelo.nome }}</td>
+                        <td>{{ modelo.marca }}</td>
+                        <td>{{ modelo.descricao }}</td>
+                        <td width="100px">
+                            <div class="d-flex gap-2">
+                                <a href="/modelos/{{ modelo.id }}" class="btn btn-sm btn-primary" title="Editar">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </a>
+                                <a href="/modelos/deletar/{{ modelo.id }}" class="btn btn-sm btn-danger" title="Remover">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

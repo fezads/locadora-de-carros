@@ -1,0 +1,104 @@
+{% extends '../base.html' %}
+
+{% block title %} Carros {% endblock %}
+
+{% block content %}
+    <h1>Carros</h1>
+
+    <div class="card my-4">
+        <div class="card-body">
+            <h2 class="d-flex justify-content-between mb-3 fs-4 lh-1">
+                {% if carro %}
+                    <span>Editar Carro</span> <a href="/carros" class="fs-6 text-danger text-decoration-none">Cancelar</a>
+                {% else %}
+                    Novo Carro
+                {% endif %}
+            </h2>
+            <form action="{% if carro %}/carros/atualizar/{{ carro.id }}{% else %}/carros/cadastrar/{% endif %}"
+                method="POST"
+                class="d-flex flex-wrap flex-column flex-md-row align-items-md-end gap-3"
+            >
+                {% csrf_token %}
+                <div class="from-group col-md-3">
+                    <label for="placa" class="form-label">Placa</label>
+                    <input type="text" maxlength="7" class="form-control" name="placa" id="placa" value="{{ carro.placa }}" required>
+                </div>
+                <div class="from-group col-md-3">
+                    <label for="modelo" class="form-label">Modelo</label>
+                    <select class="form-select" name="modelo" id="modelo" value="{{ carro.modelo }}" required>
+                        <option value="">Selecione</option>
+                        {% for modelo in modelos %}
+                            <option value="{{ modelo.id }}" {% if modelo.id == carro.modelo.id %}selected{% endif %}>{{ modelo.nome }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="from-group col-md-3">
+                    <label for="ano" class="form-label">Ano</label>
+                    <input type="text" maxlength="20" class="form-control" name="ano" id="ano" value="{{ carro.ano }}" required>
+                </div>
+                <div class="from-group col-md-3">
+                    <label for="cor" class="form-label">Cor</label>
+                    <input type="text" maxlength="20" class="form-control" name="cor" id="cor" value="{{ carro.cor }}" required>
+                </div>
+                <div class="from-group flex-md-grow-1">
+                    <label for="descricao" class="form-label">Descrição</label>
+                    <input type="text" maxlength="200" class="form-control" name="descricao" id="descricao" value="{{ carro.descricao }}">
+                </div>
+                <div class="from-group flex-md-grow-1">
+                    <label for="observacoes" class="form-label">Observações</label>
+                    <input type="text" maxlength="200" class="form-control" name="observacoes" id="observacoes"
+                        value="{{ carro.observacoes }}">
+                </div>
+                <div class="from-group">
+                    <button class="btn btn-primary">
+                        {% if carro %}
+                            Salvar
+                        {% else %}
+                            Cadastrar
+                        {% endif %}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Placa</th>
+                        <th scope="col">Modelo</th>
+                        <th scope="col">Ano</th>
+                        <th scope="col">Cor</th>
+                        <th scope="col">Descricao</th>
+                        <th scope="col">Observações</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for carro in carros %}
+                    <tr valign="middle">
+                        <td>{{ carro.placa }}</td>
+                        <td>{{ carro.modelo }}</td>
+                        <td>{{ carro.ano }}</td>
+                        <td>{{ carro.cor }}</td>
+                        <td>{{ carro.descricao }}</td>
+                        <td>{{ carro.observacoes }}</td>
+                        <td width="100px">
+                            <div class="d-flex gap-2">
+                                <a href="/carros/{{ carro.id }}" class="btn btn-sm btn-primary" title="Editar">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </a>
+                                <a href="/carros/deletar/{{ carro.id }}" class="btn btn-sm btn-danger" title="Remover">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

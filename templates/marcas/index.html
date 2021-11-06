@@ -1,0 +1,74 @@
+{% extends '../base.html' %}
+
+{% block title %} Marcas {% endblock %}
+
+{% block content %}
+    <h1>Marcas</h1>
+
+    <div class="card my-4">
+        <div class="card-body">
+            <h2 class="d-flex justify-content-between mb-3 fs-4 lh-1">
+                {% if marca %}
+                    <span>Editar Marca</span> <a href="/marcas" class="fs-6 text-danger text-decoration-none">Cancelar</a>
+                {% else %}
+                    Nova Marca
+                {% endif %}
+            </h2>
+            <form action="{% if marca %}/marcas/atualizar/{{ marca.id }}{% else %}/marcas/cadastrar/{% endif %}"
+                method="POST"
+                class="d-flex flex-column flex-md-row align-items-md-end gap-3"
+            >
+                {% csrf_token %}
+                <div class="from-group col-md-4">
+                    <label for="nome" class="form-label">Nome</label>
+                    <input type="text" maxlength="50" class="form-control" name="nome" id="nome" value="{{ marca.nome }}" required>
+                </div>
+                <div class="from-group flex-md-grow-1">
+                    <label for="descricao" class="form-label">Descrição</label>
+                    <input type="text" maxlength="200" class="form-control" name="descricao" id="descricao" value="{{ marca.descricao }}">
+                </div>
+                <div class="from-group">
+                    <button class="btn btn-primary">
+                        {% if marca %}
+                            Salvar
+                        {% else %}
+                            Cadastrar
+                        {% endif %}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Descricao</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for marca in marcas %}
+                    <tr valign="middle">
+                        <td>{{ marca.nome }}</td>
+                        <td>{{ marca.descricao }}</td>
+                        <td width="100px">
+                            <div class="d-flex gap-2">
+                                <a href="/marcas/{{ marca.id }}" class="btn btn-sm btn-primary" title="Editar">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </a>
+                                <a href="/marcas/deletar/{{ marca.id }}" class="btn btn-sm btn-danger" title="Remover">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
