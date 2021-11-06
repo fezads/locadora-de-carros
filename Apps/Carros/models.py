@@ -8,8 +8,8 @@ class Carro(models.Model):
     modelo = models.ForeignKey(modelo_models.Modelo, on_delete=models.CASCADE)
     ano = models.CharField(max_length=20)
     cor = models.CharField(max_length=20)
-    descricao = models.TextField(max_length=200)
-    observacoes = models.TextField(max_length=200)
+    descricao = models.CharField(max_length=200)
+    observacoes = models.CharField(max_length=200)
 
     def __str__(self):
         texto = '{0} {1} (Placa: {2})'

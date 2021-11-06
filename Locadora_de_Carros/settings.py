@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'Apps.Modelos',
     'Apps.Carros',
     'Apps.Clientes',
+    'Apps.Locacoes',
 ]
 
 MIDDLEWARE = [

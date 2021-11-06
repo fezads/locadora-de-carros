@@ -1,0 +1,113 @@
+{% extends '../base.html' %}
+
+{% block title %} Locações {% endblock %}
+
+{% block content %}
+    <h1>Locações</h1>
+
+    <div class="card my-4">
+        <div class="card-body">
+            <h2 class="d-flex justify-content-between mb-3 fs-4 lh-1">
+                {% if locacao %}
+                    <span>Editar Locação</span> <a href="/locacoes" class="fs-6 text-danger text-decoration-none">Cancelar</a>
+                {% else %}
+                    Nova Locação
+                {% endif %}
+            </h2>
+            <form action="{% if locacao %}/locacoes/atualizar/{{ locacao.id }}{% else %}/locacoes/cadastrar/{% endif %}" method="POST">
+                {% csrf_token %}
+                <div class="row g-3">
+                    <div class="col-sm-6">
+                        <label for="carro" class="form-label">Carro</label>
+                        <select class="form-select" name="carro" id="carro" value="{{ locacao.carro }}" required>
+                            <option value="">Selecione</option>
+                            {% for carro in carros %}
+                                <option value="{{ carro.id }}" {% if carro.id == locacao.carro.id %}selected{% endif %}>{{ carro.placa }} - {{ carro.modelo.marca }} {{ carro.modelo }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="cliente" class="form-label">Cliente</label>
+                        <select class="form-select" name="cliente" id="cliente" value="{{ locacao.cliente }}" required>
+                            <option value="">Selecione</option>
+                            {% for cliente in clientes %}
+                                <option value="{{ cliente.id }}" {% if cliente.id == locacao.cliente.id %}selected{% endif %}>{{ cliente.cpf }} - {{ cliente.nome }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-sm-6 col-lg-4">
+                        <label for="data_retirada" class="form-label">Data Retirada</label>
+                        <input type="text" class="form-control" name="data_retirada" id="data_retirada" value="{{ locacao.data_retirada|date:'d/m/Y' }}" data-datepicker required>
+                    </div>
+                    <div class="col-sm-6 col-lg-4">
+                        <label for="data_devolucao" class="form-label">Data Devolução</label>
+                        <input type="text" class="form-control" name="data_devolucao" id="data_devolucao" value="{{ locacao.data_devolucao|date:'d/m/Y' }}" data-datepicker required>
+                    </div>
+                    <div class="col-sm-6 col-lg-4">
+                        <label for="valor" class="form-label">Valor</label>
+                        <div class="input-group">
+                            <span class="input-group-text">R$</span>
+                            <input type="text" maxlength="50" class="form-control" name="valor" id="valor" value="{{ locacao.valor }}" data-valor required>
+                        </div>
+                    </div>
+                    <div class="col col-12">
+                        <label for="observacoes" class="form-label">Observações</label>
+                        <input type="text" maxlength="200" class="form-control" name="observacoes" id="observacoes" value="{{ locacao.observacoes }}">
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col d-flex justify-content-sm-end">
+                        <button type="submit" class="btn btn-primary flex-grow-1 flex-sm-grow-0">
+                            {% if locacao %}
+                                Salvar
+                            {% else %}
+                                Cadastrar
+                            {% endif %}
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Carro</th>
+                        <th scope="col">Cliente</th>
+                        <th scope="col">Data Retirada</th>
+                        <th scope="col">Data Devolução</th>
+                        <th scope="col">Valor</th>
+                        <th scope="col">Observações</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for locacao in locacoes %}
+                    <tr valign="middle">
+                        <td>{{ locacao.carro }}</td>
+                        <td>{{ locacao.cliente }}</td>
+                        <td>{{ locacao.data_retirada|date:'d/m/Y' }}</td>
+                        <td>{{ locacao.data_devolucao|date:'d/m/Y' }}</td>
+                        <td>R$ {{ locacao.valor }}</td>
+                        <td>{{ locacao.observacoes }}</td>
+                        <td width="100px">
+                            <div class="d-flex gap-2">
+                                <a href="/locacoes/{{ locacao.id }}" class="btn btn-sm btn-primary" title="Editar">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </a>
+                                <button data-bs-toggle="modal" data-bs-target="#aviso-deletar" data-href="/locacoes/deletar/{{ locacao.id }}"
+                                    class="btn btn-sm btn-danger" title="Remover">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

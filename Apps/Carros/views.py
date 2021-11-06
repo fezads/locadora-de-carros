@@ -23,7 +23,14 @@ def cadastrarCarro(request):
 
     modelo = modelo_models.Modelo.objects.get(id=modelo)
 
-    Carro.objects.create(placa=placa, modelo=modelo, ano=ano, cor=cor, descricao=descricao, observacoes=observacoes)
+    Carro.objects.create(
+        placa=placa,
+        modelo=modelo,
+        ano=ano,
+        cor=cor,
+        descricao=descricao,
+        observacoes=observacoes
+    )
 
     return redirect('/carros')
 
@@ -33,7 +40,11 @@ def editarCarro(request, id):
     listaDeCarros = Carro.objects.all()
     listaDeModelos = modelo_models.Modelo.objects.all()
 
-    return render(request, 'carros/index.html', {'carro': carro, 'carros': listaDeCarros, 'modelos': listaDeModelos})
+    return render(request, 'carros/index.html', {
+        'carro': carro,
+        'carros': listaDeCarros,
+        'modelos': listaDeModelos
+    })
 
 # Atualiza os dados da carro no banco de dados
 # e redireciona para a lista de carros

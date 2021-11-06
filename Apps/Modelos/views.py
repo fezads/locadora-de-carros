@@ -20,7 +20,11 @@ def cadastrarModelo(request):
 
     marca = marca_models.Marca.objects.get(id=marca)
 
-    Modelo.objects.create(nome=nome, marca=marca, descricao=descricao)
+    Modelo.objects.create(
+        nome=nome,
+        marca=marca,
+        descricao=descricao
+    )
 
     return redirect('/modelos')
 
@@ -30,7 +34,11 @@ def editarModelo(request, id):
     listaDeModelos = Modelo.objects.all()
     listaDeMarcas = marca_models.Marca.objects.all()
 
-    return render(request, 'modelos/index.html', {'modelo': modelo, 'modelos': listaDeModelos, 'marcas': listaDeMarcas})
+    return render(request, 'modelos/index.html', {
+        'modelo': modelo,
+        'modelos': listaDeModelos,
+        'marcas': listaDeMarcas
+    })
 
 # Atualiza os dados da modelo no banco de dados
 # e redireciona para a lista de modelos

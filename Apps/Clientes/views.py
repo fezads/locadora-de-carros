@@ -17,7 +17,12 @@ def cadastrarCliente(request):
     email=request.POST['email']
     telefone=request.POST['telefone']
 
-    Cliente.objects.create(nome=nome, cpf=cpf, email=email, telefone=telefone)
+    Cliente.objects.create(
+        nome=nome,
+        cpf=cpf,
+        email=email,
+        telefone=telefone
+    )
 
     return redirect('/clientes')
 
@@ -26,7 +31,10 @@ def editarCliente(request, id):
     cliente = Cliente.objects.get(id=id)
     listaDeClientes = Cliente.objects.all()
 
-    return render(request, 'clientes/index.html', {'cliente': cliente, 'clientes': listaDeClientes})
+    return render(request, 'clientes/index.html', {
+        'cliente': cliente,
+        'clientes': listaDeClientes
+    })
 
 # Atualiza os dados da cliente no banco de dados
 # e redireciona para a lista de clientes

@@ -25,7 +25,7 @@ jQuery(document).ready(function($) {
     });
 
     $('[data-email]').inputmask({
-        mask: "*{1,20}[.*{1,20}][.*{1,20}][.*{1,20}]@*{1,20}.*{2,16}[.*{1,2}]",
+        mask: '*{1,20}[.*{1,20}][.*{1,20}][.*{1,20}]@*{1,20}.*{2,16}[.*{1,2}]',
         greedy: false,
         jitMasking: true,
         clearIncomplete: true,
@@ -41,18 +41,23 @@ jQuery(document).ready(function($) {
         }
     });
 
-    // Inputmask("(.999){+|1},00", {
-    //     positionCaretOnClick: "radixFocus",
-    //     radixPoint: ",",
-    //     _radixDance: true,
-    //     numericInput: true,
-    //     placeholder: "0",
-    //     definitions: {
-    //         "0": {
-    //             validator: "[0-9\uFF11-\uFF19]"
-    //         }
-    //     }
-    // }).mask(selector);
+    $('[data-valor]').inputmask({
+        alias: 'currency',
+        numericInput: true,
+        clearIncomplete: true,
+        radixPoint: ",",
+    });
+
+    $('[data-datepicker').inputmask({
+        mask: '99/99/9999',
+        jitMasking: true,
+        clearIncomplete: true,
+    });
+
+    $('[data-datepicker]').datepicker({
+        language: 'pt-BR',
+        format: 'dd/mm/yyyy'
+    });
 
     $('#aviso-deletar').on('shown.bs.modal', (e) => {
         const link = $(e.relatedTarget).data('href');
