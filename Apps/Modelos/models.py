@@ -9,4 +9,5 @@ class Modelo(models.Model):
     descricao = models.CharField(max_length=200)
 
     def __str__(self):
-        return self.nome
+        texto = '{0} {1}'
+        return texto.format(self.marca.nome, self.nome)

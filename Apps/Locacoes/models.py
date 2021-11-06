@@ -13,4 +13,5 @@ class Locacao(models.Model):
     observacoes = models.CharField(max_length=200)
 
     def __str__(self):
-        return self.nome
+        texto = '{0} - {1} - {2} ({3})'
+        return texto.format(self.carro.placa, self.carro.modelo, self.cliente.nome, self.cliente.cpf)

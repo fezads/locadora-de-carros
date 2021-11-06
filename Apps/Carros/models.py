@@ -12,5 +12,5 @@ class Carro(models.Model):
     observacoes = models.CharField(max_length=200)
 
     def __str__(self):
-        texto = '{0} {1} (Placa: {2})'
-        return texto.format(self.modelo, self.ano, self.placa)
+        texto = '{0} - {1} {2}'
+        return texto.format(self.placa, self.modelo, self.ano)

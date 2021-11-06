@@ -26,7 +26,7 @@
                         <select class="form-select" name="modelo" id="modelo" value="{{ carro.modelo }}" required>
                             <option value="">Selecione</option>
                             {% for modelo in modelos %}
-                            <option value="{{ modelo.id }}" {% if modelo.id == carro.modelo.id %}selected{% endif %}>{{ modelo.nome }}</option>
+                            <option value="{{ modelo.id }}" {% if modelo.id == carro.modelo.id %}selected{% endif %}>{{ modelo }}</option>
                             {% endfor %}
                         </select>
                     </div>

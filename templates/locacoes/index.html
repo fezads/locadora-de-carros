@@ -22,7 +22,7 @@
                         <select class="form-select" name="carro" id="carro" value="{{ locacao.carro }}" required>
                             <option value="">Selecione</option>
                             {% for carro in carros %}
-                                <option value="{{ carro.id }}" {% if carro.id == locacao.carro.id %}selected{% endif %}>{{ carro.placa }} - {{ carro.modelo.marca }} {{ carro.modelo }}</option>
+                                <option value="{{ carro.id }}" {% if carro.id == locacao.carro.id %}selected{% endif %}>{{ carro.placa }} - {{ carro.modelo }}</option>
                             {% endfor %}
                         </select>
                     </div>
