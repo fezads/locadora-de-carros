@@ -14,49 +14,51 @@
                     Novo Carro
                 {% endif %}
             </h2>
-            <form action="{% if carro %}/carros/atualizar/{{ carro.id }}{% else %}/carros/cadastrar/{% endif %}"
-                method="POST"
-                class="d-flex flex-wrap flex-column flex-md-row align-items-md-end gap-3"
-            >
+            <form action="{% if carro %}/carros/atualizar/{{ carro.id }}{% else %}/carros/cadastrar/{% endif %}" method="POST">
                 {% csrf_token %}
-                <div class="from-group col-md-3">
-                    <label for="placa" class="form-label">Placa</label>
-                    <input type="text" maxlength="7" class="form-control" name="placa" id="placa" value="{{ carro.placa }}" required>
-                </div>
-                <div class="from-group col-md-3">
-                    <label for="modelo" class="form-label">Modelo</label>
-                    <select class="form-select" name="modelo" id="modelo" value="{{ carro.modelo }}" required>
-                        <option value="">Selecione</option>
-                        {% for modelo in modelos %}
+                <div class="row g-3">
+                    <div class="col-sm-6 col-lg-3">
+                        <label for="placa" class="form-label">Placa</label>
+                        <input type="text" minlength="7" maxlength="7" class="form-control" name="placa" id="placa" value="{{ carro.placa }}" required>
+                    </div>
+                    <div class="col-sm-6 col-lg-3">
+                        <label for="modelo" class="form-label">Modelo</label>
+                        <select class="form-select" name="modelo" id="modelo" value="{{ carro.modelo }}" required>
+                            <option value="">Selecione</option>
+                            {% for modelo in modelos %}
                             <option value="{{ modelo.id }}" {% if modelo.id == carro.modelo.id %}selected{% endif %}>{{ modelo.nome }}</option>
-                        {% endfor %}
-                    </select>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-sm-6 col-lg-3">
+                        <label for="ano" class="form-label">Ano</label>
+                        <input type="text" maxlength="20" class="form-control" name="ano" id="ano" value="{{ carro.ano }}" required>
+                    </div>
+                    <div class="col-sm-6 col-lg-3">
+                        <label for="cor" class="form-label">Cor</label>
+                        <input type="text" maxlength="20" class="form-control" name="cor" id="cor" value="{{ carro.cor }}" required>
+                    </div>
+                    <div class="col-lg-6">
+                        <label for="descricao" class="form-label">Descrição</label>
+                        <input type="text" maxlength="200" class="form-control" name="descricao" id="descricao"
+                            value="{{ carro.descricao }}">
+                    </div>
+                    <div class="col-lg-6">
+                        <label for="observacoes" class="form-label">Observações</label>
+                        <input type="text" maxlength="200" class="form-control" name="observacoes" id="observacoes"
+                            value="{{ carro.observacoes }}">
+                    </div>
                 </div>
-                <div class="from-group col-md-3">
-                    <label for="ano" class="form-label">Ano</label>
-                    <input type="text" maxlength="20" class="form-control" name="ano" id="ano" value="{{ carro.ano }}" required>
-                </div>
-                <div class="from-group col-md-3">
-                    <label for="cor" class="form-label">Cor</label>
-                    <input type="text" maxlength="20" class="form-control" name="cor" id="cor" value="{{ carro.cor }}" required>
-                </div>
-                <div class="from-group flex-md-grow-1">
-                    <label for="descricao" class="form-label">Descrição</label>
-                    <input type="text" maxlength="200" class="form-control" name="descricao" id="descricao" value="{{ carro.descricao }}">
-                </div>
-                <div class="from-group flex-md-grow-1">
-                    <label for="observacoes" class="form-label">Observações</label>
-                    <input type="text" maxlength="200" class="form-control" name="observacoes" id="observacoes"
-                        value="{{ carro.observacoes }}">
-                </div>
-                <div class="from-group">
-                    <button class="btn btn-primary">
-                        {% if carro %}
+                <div class="row mt-3">
+                    <div class="col d-flex justify-content-sm-end">
+                        <button type="submit" class="btn btn-primary flex-grow-1 flex-sm-grow-0">
+                            {% if carro %}
                             Salvar
-                        {% else %}
+                            {% else %}
                             Cadastrar
-                        {% endif %}
-                    </button>
+                            {% endif %}
+                        </button>
+                    </div>
                 </div>
             </form>
         </div>

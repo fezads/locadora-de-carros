@@ -14,27 +14,29 @@
                     Nova Marca
                 {% endif %}
             </h2>
-            <form action="{% if marca %}/marcas/atualizar/{{ marca.id }}{% else %}/marcas/cadastrar/{% endif %}"
-                method="POST"
-                class="d-flex flex-column flex-md-row align-items-md-end gap-3"
-            >
+            <form action="{% if marca %}/marcas/atualizar/{{ marca.id }}{% else %}/marcas/cadastrar/{% endif %}" method="POST">
                 {% csrf_token %}
-                <div class="from-group col-md-4">
-                    <label for="nome" class="form-label">Nome</label>
-                    <input type="text" maxlength="50" class="form-control" name="nome" id="nome" value="{{ marca.nome }}" required>
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label for="nome" class="form-label">Nome</label>
+                        <input type="text" maxlength="50" class="form-control" name="nome" id="nome" value="{{ marca.nome }}" required>
+                    </div>
+                    <div class="col">
+                        <label for="descricao" class="form-label">Descrição</label>
+                        <input type="text" maxlength="200" class="form-control" name="descricao" id="descricao"
+                            value="{{ marca.descricao }}">
+                    </div>
                 </div>
-                <div class="from-group flex-md-grow-1">
-                    <label for="descricao" class="form-label">Descrição</label>
-                    <input type="text" maxlength="200" class="form-control" name="descricao" id="descricao" value="{{ marca.descricao }}">
-                </div>
-                <div class="from-group">
-                    <button class="btn btn-primary">
-                        {% if marca %}
+                <div class="row mt-3">
+                    <div class="col d-flex justify-content-sm-end">
+                        <button type="submit" class="btn btn-primary flex-grow-1 flex-sm-grow-0">
+                            {% if marca %}
                             Salvar
-                        {% else %}
+                            {% else %}
                             Cadastrar
-                        {% endif %}
-                    </button>
+                            {% endif %}
+                        </button>
+                    </div>
                 </div>
             </form>
         </div>
