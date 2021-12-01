@@ -17,7 +17,7 @@
     <header>
         <nav class="navbar navbar-expand-md navbar-dark bg-primary" aria-label="Fourth navbar example">
             <div class="container">
-                <a class="navbar-brand" href="#">Locadora de Carros</a>
+                <a class="navbar-brand" href="/">Locadora de Carros</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar"
                     aria-controls="navbar" aria-expanded="false" aria-label="Abrir/fechar navegação">
                     <span class="navbar-toggler-icon"></span>
@@ -26,19 +26,19 @@
                 <div class="collapse navbar-collapse justify-content-end" id="navbar">
                     <ul class="navbar-nav mb-2 mb-md-0">
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="false" href="/locacoes/">Locações</a>
+                            <a class="nav-link {% if request.resolver_match.url_name == 'locacoes' %}active{% endif %}" aria-current="false" href="/locacoes/">Locações</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="false" href="/clientes/">Clientes</a>
+                            <a class="nav-link {% if request.resolver_match.url_name == 'clientes' %}active{% endif %}" aria-current="false" href="/clientes/">Clientes</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="false" href="/carros/">Carros</a>
+                            <a class="nav-link {% if request.resolver_match.url_name == 'carros' %}active{% endif %}" aria-current="false" href="/carros/">Carros</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="false" href="/modelos/">Modelos</a>
+                            <a class="nav-link {% if request.resolver_match.url_name == 'modelos' %}active{% endif %}" aria-current="false" href="/modelos/">Modelos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="false" href="/marcas/">Marcas</a>
+                            <a class="nav-link {% if request.resolver_match.url_name == 'marcas' %}active{% endif %}" aria-current="false" href="/marcas/">Marcas</a>
                         </li>
                     </ul>
                 </div>
@@ -47,6 +47,26 @@
     </header>
 
     <main class="py-4">
+        {% if messages %}
+            <div class="toast-container position-fixed top-4 start-50 translate-middle-x">
+                {% for message in messages %}
+                <div class="toast align-items-center text-white bg-{% if message.tags == 'error' %}danger{% else %}success{% endif %} border-0"
+                    role="alert"
+                    aria-live="assertive"
+                    aria-atomic="true" data-bs-autohide="true"
+                >
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            {{ message }}
+                        </div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                            aria-label="Close"></button>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
         <div class="container">
             {% block content %}
             {% endblock %}
@@ -60,10 +80,16 @@
                         <h5 class="modal-title" id="avisoDeletarModalToggleLabel">Deletar</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
-                        {% block aviso-deletar %}
-                            Você tem certeza que deseja deletar?
-                        {% endblock %}
+                <div class="modal-body text-center fs-6">
+                        <span class="fw-bold">
+                            {% block aviso-deletar %}
+                                Você tem certeza que deseja remover esse item?
+                            {% endblock %}
+                        </span>
+                        <br>
+                        Todos os itens associados também serão removidos.
+                        <br>
+                        <span class="fw-bold text-danger">Isso não pode ser desfeito.</span>
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-primary" data-bs-target="#aviso-deletar" data-bs-toggle="modal">Cancelar</button>

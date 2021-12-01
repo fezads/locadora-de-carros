@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.contrib import messages
 from .models import Modelo
 from Apps.Marcas import models as marca_models
 
@@ -14,17 +15,22 @@ def listarModelos(request):
 # Salva a modelo no banco de dados
 # e redireciona para a lista de modelos
 def cadastrarModelo(request):
-    nome=request.POST['nome']
-    marca=request.POST['marca']
-    descricao=request.POST['descricao']
+    try:
+        nome=request.POST['nome']
+        marca=request.POST['marca']
+        descricao=request.POST['descricao']
 
-    marca = marca_models.Marca.objects.get(id=marca)
+        marca = marca_models.Marca.objects.get(id=marca)
 
-    Modelo.objects.create(
-        nome=nome,
-        marca=marca,
-        descricao=descricao
-    )
+        Modelo.objects.create(
+            nome=nome,
+            marca=marca,
+            descricao=descricao
+        )
+
+        messages.success(request, 'Modelo cadastrado com sucesso!')
+    except:
+        messages.error(request, 'Ocorreu um erro. Por favor tente novamente.')
 
     return redirect('/modelos')
 
@@ -43,23 +49,33 @@ def editarModelo(request, id):
 # Atualiza os dados da modelo no banco de dados
 # e redireciona para a lista de modelos
 def atualizarModelo(request, id):
-    nome = request.POST['nome']
-    marca = request.POST['marca']
-    descricao = request.POST['descricao']
+    try:
+        nome = request.POST['nome']
+        marca = request.POST['marca']
+        descricao = request.POST['descricao']
 
-    marca = marca_models.Marca.objects.get(id=marca)
-    
-    modelo = Modelo.objects.get(id=id)
-    modelo.nome = nome
-    modelo.marca = marca
-    modelo.descricao = descricao
-    modelo.save()
+        marca = marca_models.Marca.objects.get(id=marca)
+        
+        modelo = Modelo.objects.get(id=id)
+        modelo.nome = nome
+        modelo.marca = marca
+        modelo.descricao = descricao
+        modelo.save()
+
+        messages.success(request, 'Modelo atualizado com sucesso!')
+    except:
+        messages.error(request, 'Ocorreu um erro. Por favor tente novamente.')
 
     return redirect('/modelos')
 
 # Deleta a modelo do banco de dados
 def deletarModelo(request, id):
-    modelo = Modelo.objects.get(id=id)
-    modelo.delete()
+    try:
+        modelo = Modelo.objects.get(id=id)
+        modelo.delete()
+
+        messages.success(request, 'Modelo removido com sucesso!')
+    except:
+        messages.error(request, 'Ocorreu um erro. Por favor tente novamente.')
 
     return redirect('/modelos')

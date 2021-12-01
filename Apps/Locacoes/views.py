@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.contrib import messages
 from datetime import datetime
 from .models import Locacao
 from Apps.Carros import models as carro_models
@@ -21,28 +22,33 @@ def listarLocacoes(request):
 # Salva a locacao no banco de dados
 # e redireciona para a lista de locacoes
 def cadastrarLocacao(request):
-    carro = request.POST['carro']
-    cliente = request.POST['cliente']
-    data_retirada = request.POST['data_retirada']
-    data_devolucao = request.POST['data_devolucao']
-    valor = request.POST['valor']
-    observacoes = request.POST['observacoes']
+    try:
+        carro = request.POST['carro']
+        cliente = request.POST['cliente']
+        data_retirada = request.POST['data_retirada']
+        data_devolucao = request.POST['data_devolucao']
+        valor = request.POST['valor']
+        observacoes = request.POST['observacoes']
 
-    carro = carro_models.Carro.objects.get(id=carro)
-    cliente = cliente_models.Cliente.objects.get(id=cliente)
+        carro = carro_models.Carro.objects.get(id=carro)
+        cliente = cliente_models.Cliente.objects.get(id=cliente)
 
-    # transforma as datas em datetime
-    data_retirada = datetime.strptime(data_retirada, '%d/%m/%Y').date()
-    data_devolucao = datetime.strptime(data_devolucao, '%d/%m/%Y').date()
+        # transforma as datas em datetime
+        data_retirada = datetime.strptime(data_retirada, '%d/%m/%Y').date()
+        data_devolucao = datetime.strptime(data_devolucao, '%d/%m/%Y').date()
 
-    Locacao.objects.create(
-        carro=carro,
-        cliente=cliente,
-        data_retirada=data_retirada,
-        data_devolucao=data_devolucao,
-        valor=valor,
-        observacoes=observacoes
-    )
+        Locacao.objects.create(
+            carro=carro,
+            cliente=cliente,
+            data_retirada=data_retirada,
+            data_devolucao=data_devolucao,
+            valor=valor,
+            observacoes=observacoes
+        )
+
+        messages.success(request, 'Locação cadastrada com sucesso!')
+    except:
+        messages.error(request, 'Ocorreu um erro. Por favor tente novamente.')
 
     return redirect('/locacoes')
 
@@ -63,34 +69,44 @@ def editarLocacao(request, id):
 # Atualiza os dados da locacao no banco de dados
 # e redireciona para a lista de locacoes
 def atualizarLocacao(request, id):
-    carro = request.POST['carro']
-    cliente = request.POST['cliente']
-    data_retirada = request.POST['data_retirada']
-    data_devolucao = request.POST['data_devolucao']
-    valor = request.POST['valor']
-    observacoes = request.POST['observacoes']
+    try:
+        carro = request.POST['carro']
+        cliente = request.POST['cliente']
+        data_retirada = request.POST['data_retirada']
+        data_devolucao = request.POST['data_devolucao']
+        valor = request.POST['valor']
+        observacoes = request.POST['observacoes']
 
-    carro = carro_models.Carro.objects.get(id=carro)
-    cliente = cliente_models.Cliente.objects.get(id=cliente)
+        carro = carro_models.Carro.objects.get(id=carro)
+        cliente = cliente_models.Cliente.objects.get(id=cliente)
 
-    # transforma as datas em datetime
-    data_retirada = datetime.strptime(data_retirada, '%d/%m/%Y').date()
-    data_devolucao = datetime.strptime(data_devolucao, '%d/%m/%Y').date()
-    
-    locacao = Locacao.objects.get(id=id)
-    locacao.carro = carro
-    locacao.cliente = cliente
-    locacao.data_retirada = data_retirada
-    locacao.data_devolucao = data_devolucao
-    locacao.valor = valor
-    locacao.observacoes = observacoes
-    locacao.save()
+        # transforma as datas em datetime
+        data_retirada = datetime.strptime(data_retirada, '%d/%m/%Y').date()
+        data_devolucao = datetime.strptime(data_devolucao, '%d/%m/%Y').date()
+        
+        locacao = Locacao.objects.get(id=id)
+        locacao.carro = carro
+        locacao.cliente = cliente
+        locacao.data_retirada = data_retirada
+        locacao.data_devolucao = data_devolucao
+        locacao.valor = valor
+        locacao.observacoes = observacoes
+        locacao.save()
+
+        messages.success(request, 'Locação atualizada com sucesso!')
+    except:
+        messages.error(request, 'Ocorreu um erro. Por favor tente novamente.')
 
     return redirect('/locacoes')
 
 # Deleta a locacao do banco de dados
 def deletarLocacao(request, id):
-    locacao = Locacao.objects.get(id=id)
-    locacao.delete()
+    try:
+        locacao = Locacao.objects.get(id=id)
+        locacao.delete()
+
+        messages.success(request, 'Locação removida com sucesso!')
+    except:
+        messages.error(request, 'Ocorreu um erro. Por favor tente novamente.')
 
     return redirect('/locacoes')

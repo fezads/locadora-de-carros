@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.contrib import messages
 from .models import Cliente
 
 # Create your views here.
@@ -12,17 +13,22 @@ def listarClientes(request):
 # Salva a cliente no banco de dados
 # e redireciona para a lista de clientes
 def cadastrarCliente(request):
-    nome=request.POST['nome']
-    cpf=request.POST['cpf']
-    email=request.POST['email']
-    telefone=request.POST['telefone']
+    try:
+        nome=request.POST['nome']
+        cpf=request.POST['cpf']
+        email=request.POST['email']
+        telefone=request.POST['telefone']
 
-    Cliente.objects.create(
-        nome=nome,
-        cpf=cpf,
-        email=email,
-        telefone=telefone
-    )
+        Cliente.objects.create(
+            nome=nome,
+            cpf=cpf,
+            email=email,
+            telefone=telefone
+        )
+
+        messages.success(request, 'Cliente cadastrado com sucesso!')
+    except:
+        messages.error(request, 'Ocorreu um erro. Por favor tente novamente.')
 
     return redirect('/clientes')
 
@@ -39,23 +45,33 @@ def editarCliente(request, id):
 # Atualiza os dados da cliente no banco de dados
 # e redireciona para a lista de clientes
 def atualizarCliente(request, id):
-    nome=request.POST['nome']
-    cpf=request.POST['cpf']
-    email=request.POST['email']
-    telefone=request.POST['telefone']
+    try:
+        nome=request.POST['nome']
+        cpf=request.POST['cpf']
+        email=request.POST['email']
+        telefone=request.POST['telefone']
 
-    cliente = Cliente.objects.get(id=id)
-    cliente.nome = nome
-    cliente.cpf = cpf
-    cliente.email = email
-    cliente.telefone = telefone
-    cliente.save()
+        cliente = Cliente.objects.get(id=id)
+        cliente.nome = nome
+        cliente.cpf = cpf
+        cliente.email = email
+        cliente.telefone = telefone
+        cliente.save()
+
+        messages.success(request, 'Cliente atualizado com sucesso!')
+    except:
+        messages.error(request, 'Ocorreu um erro. Por favor tente novamente.')
 
     return redirect('/clientes')
 
 # Deleta a cliente do banco de dados
 def deletarCliente(request, id):
-    cliente = Cliente.objects.get(id=id)
-    cliente.delete()
+    try:
+        cliente = Cliente.objects.get(id=id)
+        cliente.delete()
+
+        messages.success(request, 'Cliente removido com sucesso!')
+    except:
+        messages.error(request, 'Ocorreu um erro. Por favor tente novamente.')
 
     return redirect('/clientes')

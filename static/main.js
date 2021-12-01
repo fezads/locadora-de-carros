@@ -64,4 +64,22 @@ jQuery(document).ready(function($) {
 
         $(this).find('[data-botao-deletar]').attr('href', link);
     });
+
+
+    // var toastTrigger = document.getElementById('liveToastBtn')
+    // var toastLiveExample = document.getElementById('liveToast')
+    // if (toastTrigger) {
+    //     toastTrigger.addEventListener('click', function () {
+    //         var toast = new bootstrap.Toast(toastLiveExample)
+
+    //         toast.show()
+    //     })
+    // }
+
+    $(".toast").each((index, toast) => {
+        console.log(toast);
+        var toast = new bootstrap.Toast(toast)
+
+        toast.show()
+    });
 });
