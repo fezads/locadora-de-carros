@@ -48,6 +48,12 @@ jQuery(document).ready(function($) {
         radixPoint: ",",
     });
 
+    $('[data-placa').inputmask({
+        mask: 'AAA9A99',
+        jitMasking: true,
+        clearIncomplete: true,
+    });
+
     $('[data-datepicker').inputmask({
         mask: '99/99/9999',
         jitMasking: true,
@@ -65,19 +71,7 @@ jQuery(document).ready(function($) {
         $(this).find('[data-botao-deletar]').attr('href', link);
     });
 
-
-    // var toastTrigger = document.getElementById('liveToastBtn')
-    // var toastLiveExample = document.getElementById('liveToast')
-    // if (toastTrigger) {
-    //     toastTrigger.addEventListener('click', function () {
-    //         var toast = new bootstrap.Toast(toastLiveExample)
-
-    //         toast.show()
-    //     })
-    // }
-
     $(".toast").each((index, toast) => {
-        console.log(toast);
         var toast = new bootstrap.Toast(toast)
 
         toast.show()
