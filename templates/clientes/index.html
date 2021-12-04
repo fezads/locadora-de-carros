@@ -53,41 +53,43 @@
     
     <div class="card">
         <div class="card-body">
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th scope="col">Nome</th>
-                        <th scope="col">CPF</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Telefone</th>
-                        <th scope="col"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for cliente in clientes %}
-                    <tr valign="middle">
-                        <td>{{ cliente.nome }}</td>
-                        <td>{{ cliente.cpf }}</td>
-                        <td>{{ cliente.email }}</td>
-                        <td>{{ cliente.telefone }}</td>
-                        <td width="100px">
-                            <div class="d-flex gap-2">
-                                <a href="/clientes/{{ cliente.id }}" class="btn btn-sm btn-primary" title="Editar">
-                                    <i class="fas fa-pencil-alt"></i>
-                                </a>
-                                <button data-bs-toggle="modal"
-                                    data-bs-target="#aviso-deletar"
-                                    data-href="/clientes/deletar/{{ cliente.id }}"
-                                    class="btn btn-sm btn-danger"
-                                    title="Remover">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="table table-hover" style="min-width:800px;">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nome</th>
+                            <th scope="col">CPF</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Telefone</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for cliente in clientes %}
+                        <tr valign="middle">
+                            <td>{{ cliente.nome }}</td>
+                            <td>{{ cliente.cpf }}</td>
+                            <td>{{ cliente.email }}</td>
+                            <td>{{ cliente.telefone }}</td>
+                            <td width="100px">
+                                <div class="d-flex gap-2">
+                                    <a href="/clientes/{{ cliente.id }}" class="btn btn-sm btn-primary" title="Editar">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </a>
+                                    <button data-bs-toggle="modal"
+                                        data-bs-target="#aviso-deletar"
+                                        data-href="/clientes/deletar/{{ cliente.id }}"
+                                        class="btn btn-sm btn-danger"
+                                        title="Remover">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 {% endblock %}
